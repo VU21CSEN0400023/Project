@@ -1,61 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Link to external CSS stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-  <title>Calculator</title>
-</head>
-<body>
-  <!-- Calculator container -->
-  <div class="container">
-    <!-- Calculator layout -->
-    <div class="calculator">
-      <!-- Input box for displaying and entering calculations -->
-      <input type="text" id="inputBox" placeholder="0" />
+// Get the input element where calculations are displayed
+let input = document.getElementById('inputBox');
 
-      <!-- Operator buttons section -->
-      <div>
-        <button class="button operator">AC</button> <!-- All Clear button -->
-        <button class="button operator">DEL</button> <!-- Delete button -->
-        <button class="button operator">%</button> <!-- Percentage button -->
-        <button class="button operator">/</button> <!-- Division button -->
-      </div>
+// Get all the buttons on the calculator
+let buttons = document.querySelectorAll('button');
 
-      <!-- Number buttons section -->
-      <div>
-        <button class="button">7</button>
-        <button class="button">8</button>
-        <button class="button">9</button>
-        <button class="button operator">*</button> <!-- Multiplication button -->
-      </div>
+// Initialize an empty string to hold the current calculation
+let string = "";
 
-      <div>
-        <button class="button">4</button>
-        <button class="button">5</button>
-        <button class="button">6</button>
-        <button class="button operator">-</button> <!-- Subtraction button -->
-      </div>
+// Convert the NodeList of buttons into an array
+let arr = Array.from(buttons);
 
-      <div>
-        <button class="button">1</button>
-        <button class="button">2</button>
-        <button class="button">3</button>
-        <button class="button operator">+</button> <!-- Addition button -->
-      </div>
-
-      <div>
-        <button class="button">00</button>
-        <button class="button">0</button>
-        <button class="button">.</button>
-        <button class="button equalBtn">=</button> <!-- Equals button -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Link to external JavaScript script -->
-  <script src="script.js"></script>
-</body>
-</html>
+// Loop through each button and add a click event listener
+arr.forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Check if the clicked button is the equals (=) button
+        if (e.target.innerHTML == '=') {
+            // Evaluate the current string as a mathematical expression
+            string = eval(string);
+            // Display the result in the input box
+            input.value = string;
+        } 
+        // Check if the clicked button is the All Clear (AC) button
+        else if (e.target.innerHTML == 'AC') {
+            // Clear the string and reset the input box
+            string = "";
+            input.value = string;
+        } 
+        // Check if the clicked button is the Delete (DEL) button
+        else if (e.target.innerHTML == 'DEL') {
+            // Remove the last character from the string and update the input box
+            string = string.substring(0, string.length - 1);
+            input.value = string;
+        } 
+        // For other buttons (numbers and operators)
+        else {
+            // Append the button's text content to the current string
+            string += e.target.innerHTML;
+            // Update the input box with the new string
+            input.value = string;
+        }
+    });
+});
